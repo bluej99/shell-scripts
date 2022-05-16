@@ -16,7 +16,7 @@ echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
 echo arch > /mnt/etc/hostname
 echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
 echo "exec fish" >> /mnt/etc/bash.bashrc
-printf 'XDG_CACHE_HOME=$HOME/.cache\nXDG_CONFIG_HOME=$HOME/.config\nXDG_DATA_HOME=$HOME/.local/share\nXDG_STATE_HOME=$HOME/.local/state\nKDEHOME=$XDG_CONFIG_HOME/kde\nGNUPGHOME=$XDG_DATA_HOME/gnupg\nVSCODE_PORTABLE=$XDG_DATA_HOME/vscode\nSSB_HOME=$XDG_DATA_HOME/zoom\nGTK_USE_PORTAL=1'
+printf 'XDG_CACHE_HOME=$HOME/.cache\nXDG_CONFIG_HOME=$HOME/.config\nXDG_DATA_HOME=$HOME/.local/share\nXDG_STATE_HOME=$HOME/.local/state\nKDEHOME=$XDG_CONFIG_HOME/kde\nGNUPGHOME=$XDG_DATA_HOME/gnupg\nVSCODE_PORTABLE=$XDG_DATA_HOME/vscode\nSSB_HOME=$XDG_DATA_HOME/zoom\nGTK_USE_PORTAL=1' > /mnt/etc/profile.d/xdg.sh
 arch-chroot /mnt
 ln -sf /usr/share/zoneinfo/US/Arizona /etc/localtime
 hwclock --systohc
