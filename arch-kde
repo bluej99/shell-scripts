@@ -9,7 +9,7 @@ mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
 echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman -Sy && pacman -S archlinux-keyring
-pacstrap /mnt base base-devel git linux linux-firmware sddm plasma-desktop plasma-wayland-session konsole fish plasma-pa plasma-nm powerdevil bluedevil
+pacstrap -i /mnt base base-devel git linux linux-firmware sddm plasma-desktop plasma-wayland-session konsole fish plasma-pa plasma-nm powerdevil bluedevil
 printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
 echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
 echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
@@ -33,6 +33,7 @@ printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loade
 printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
 exit
 EOF
+chmod +x /mnt/root/part2.sh
 arch-chroot /mnt /root/part2.sh
 rm -rf /mnt/root/.*
 rm -rf /mnt/root/part2.sh
