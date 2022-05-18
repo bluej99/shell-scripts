@@ -24,7 +24,7 @@ locale-gen
 useradd -c "Neel Jepaliya" -m -G wheel -s /bin/bash neel
 passwd neel
 passwd
-systemctl enable sddm NetworkManager
+systemctl enable gdm NetworkManager
 bootctl install
 rm /boot/initramfs-linux-fallback.img
 mv /boot/initramfs-linux.img /boot/initrd
