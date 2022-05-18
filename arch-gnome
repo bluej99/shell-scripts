@@ -1,0 +1,41 @@
+#!/bin/sh
+rmmod pcspkr
+echo 64 > /sys/class/backlight/amdgpu_bl0/brightness
+mkfs.vfat -F 32 /dev/nvme0n1p1
+mkswap /dev/nvme0n1p2
+mkfs.f2fs -f /dev/nvme0n1p3
+mount /dev/nvme0n1p3 /mnt
+mkdir /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
+echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+pacman -Sy && pacman -S archlinux-keyring
+pacstrap -i /mnt base base-devel git linux linux-firmware gdm gnome-shell network-manager-applet gnome-keyring gnome-terminal fish
+printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
+echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
+echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
+echo arch > /mnt/etc/hostname
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+echo "exec fish" >> /mnt/etc/bash.bashrc
+printf 'export XDG_CACHE_HOME=$HOME/.cache\nexport XDG_CONFIG_HOME=$HOME/.config\nexport XDG_DATA_HOME=$HOME/.local/share\nexport XDG_STATE_HOME=$HOME/.local/state\nexport GNUPGHOME=$XDG_DATA_HOME/gnupg\nexport SSB_HOME=$XDG_DATA_HOME/zoom
+cat <<EOF > /mnt/root/part2.sh
+ln -sf /usr/share/zoneinfo/US/Arizona /etc/localtime
+hwclock --systohc
+locale-gen
+useradd -c "Neel Jepaliya" -m -G wheel -s /bin/bash neel
+passwd neel
+passwd
+systemctl enable sddm NetworkManager
+bootctl install
+rm /boot/initramfs-linux-fallback.img
+mv /boot/initramfs-linux.img /boot/initrd
+mv /boot/vmlinuz-linux /boot/linux
+printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loader/loader.conf
+printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
+exit
+EOF
+chmod +x /mnt/root/part2.sh
+arch-chroot /mnt /root/part2.sh
+rm -rf /mnt/root/.*
+rm -rf /mnt/root/part2.sh
+rm -rf /mnt/home/neel/.*
+umount -R /mnt
