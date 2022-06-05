@@ -7,7 +7,7 @@ mkfs.f2fs -f /dev/nvme0n1p3
 mount /dev/nvme0n1p3 /mnt
 mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
-echo 'Server = https://mirror.phx1.us.spryservers.net/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman -Sy && pacman -S archlinux-keyring
 pacstrap -i /mnt base eog epiphany evince fish gdm git gnome-builder gnome-calculator gnome-control-center gnome-shell gst-plugin-pipewire gst-plugin-va gst-plugins-ugly libva-mesa-driver linux linux-firmware nautilus network-manager-applet power-profiles-daemon
 printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
@@ -32,27 +32,29 @@ mv /boot/initramfs-linux.img /boot/initrd
 mv /boot/vmlinuz-linux /boot/linux
 printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loader/loader.conf
 printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
-mkdir /root/.temp
-cd /root/.temp
+su neel
+mkdir /home/neel/.temp
+cd /home/neel/.temp
 git clone https://aur.archlinux.org/libpamac-aur.git
 cd libpamac-aur
 makepkg -si --noconfirm --asdeps
-cd /root/.temp
+cd /home/neel/.temp
 git clone https://aur.archlinux.org/pamac-aur.git
 cd pamac-aur
 makepkg -si --noconfirm
-cd /root/.temp
+cd /home/neel/.temp
 git clone https://aur.archlinux.org/adw-gtk3.git
 cd adw-gtk3
 makepkg -si --noconfirm
-cd /root/.temp
+cd /home/neel/.temp
 git clone https://aur.archlinux.org/extension-manager.git
 cd extension-manager
 makepkg -si --noconfirm
-cd /root/.temp
+cd /home/neel/.temp
 git clone https://aur.archlinux.org/gnome-console.git
 cd gnome-console
 makepkg -si --noconfirm
+exit
 exit
 EOF
 chmod +x /mnt/root/part2.sh
