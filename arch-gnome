@@ -42,7 +42,7 @@ su - neel -c "rm -rf ~/.*; rm -rf ~/*"
 su - neel -c "mkdir ~/{audio,document,download,photo,video}"
 su - neel -c "mkdir ~/.config"
 su - neel -c "touch ~/.config/user-dirs.dirs"
-printf 'XDG_DOCUMENTS_DIR=$HOME/document\nXDG_DOWNLOAD_DIR=$HOME/download\nXDG_MUSIC_DIR=$HOME/audio\nXDG_PICTURES_HOME=$HOME/photo\nXDG_VIDEOS_DIR=$HOME/video' >> /home/neel/.config/user-dirs.dirs
+printf 'XDG_DOCUMENTS_DIR=\$HOME/document\nXDG_DOWNLOAD_DIR=\$HOME/download\nXDG_MUSIC_DIR=\$HOME/audio\nXDG_PICTURES_HOME=\$HOME/photo\nXDG_VIDEOS_DIR=\$HOME/video' >> /home/neel/.config/user-dirs.dirs
 su - neel -c "mkdir -p ~/.local/share/gnupg"
 su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell"
 su - neel -c "printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tbackground: #303030;\n\tborder-radius: 12px;\n}' > ~/.local/share/themes/Custom/gnome-shell/gnome-shell.css"
