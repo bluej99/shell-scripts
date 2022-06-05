@@ -9,7 +9,7 @@ mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
 echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman -Sy && pacman -S archlinux-keyring
-pacstrap -i /mnt base eog epiphany evince fish gdm git gnome-builder gnome-calculator gnome-control-center gnome-shell gst-plugin-pipewire gst-plugin-va gst-plugins-ugly libva-mesa-driver linux linux-firmware nautilus network-manager-applet power-profiles-daemon
+pacstrap -i /mnt base base-devel eog epiphany evince fish gdm git gnome-builder gnome-calculator gnome-control-center gnome-shell gst-plugin-pipewire gst-plugin-va gst-plugins-ugly libva-mesa-driver linux linux-firmware nautilus network-manager-applet power-profiles-daemon
 printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
 echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
 echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
@@ -32,29 +32,11 @@ mv /boot/initramfs-linux.img /boot/initrd
 mv /boot/vmlinuz-linux /boot/linux
 printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loader/loader.conf
 printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
-su neel
-mkdir /home/neel/.temp
-cd /home/neel/.temp
-git clone https://aur.archlinux.org/libpamac-aur.git
-cd libpamac-aur
-makepkg -si --noconfirm --asdeps
-cd /home/neel/.temp
-git clone https://aur.archlinux.org/pamac-aur.git
-cd pamac-aur
-makepkg -si --noconfirm
-cd /home/neel/.temp
-git clone https://aur.archlinux.org/adw-gtk3.git
-cd adw-gtk3
-makepkg -si --noconfirm
-cd /home/neel/.temp
-git clone https://aur.archlinux.org/extension-manager.git
-cd extension-manager
-makepkg -si --noconfirm
-cd /home/neel/.temp
-git clone https://aur.archlinux.org/gnome-console.git
-cd gnome-console
-makepkg -si --noconfirm
-exit
+su - neel -c "git clone https://aur.archlinux.org/libpamac-aur.git; cd libpamac-aur; makepkg -si --noconfirm --asdeps"
+su - neel -c "git clone https://aur.archlinux.org/pamac-aur.git; cd pamac-aur; makepkg -si --noconfirm"
+su - neel -c "git clone https://aur.archlinux.org/adw-gtk3.git; cd adw-gtk3; makepkg -si --noconfirm"
+su - neel -c "git clone https://aur.archlinux.org/gnome-console.git; cd gnome-console; makepkg -si --noconfirm"
+su - neel -c "git clone https://aur.archlinux.org/extension-manager.git; cd extension-manager; makepkg -si --noconfirm"
 exit
 EOF
 chmod +x /mnt/root/part2.sh
@@ -62,6 +44,7 @@ arch-chroot /mnt /root/part2.sh
 rm -rf /mnt/root/.*
 rm -rf /mnt/root/part2.sh
 rm -rf /mnt/home/neel/.*
+rm -rf /mnt/home/neel/*
 mkdir -p /mnt/home/neel/.local/share/gnupg
 mkdir -p /mnt/home/neel/.local/share/themes/Custom/gnome-shell
 printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tbackground: #303030;\n\tborder-radius: 12px;\n}' > /mnt/home/neel/.local/share/themes/Custom/gnome-shell/gnome-shell.css
