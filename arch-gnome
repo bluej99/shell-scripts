@@ -45,7 +45,7 @@ su - neel -c "sudo pacman -S --noconfirm sassc; git clone https://gitlab.gnome.o
 su - neel -c "mkdir ~/{audio,document,download,photo,video}"
 su - neel -c "mkdir ~/.config"
 su - neel -c "touch ~/.config/user-dirs.dirs"
-su - Neel -c "mkdir ~/.config/git; touch ~/.config/git/config; git config --global user.name \"Neel Jepaliya\"; git config --global user.email \"n.jepaliya@gmail.com\""
+su - neel -c "mkdir ~/.config/git; touch ~/.config/git/config; git config --global user.name \"Neel Jepaliya\"; git config --global user.email \"n.jepaliya@gmail.com\""
 printf 'XDG_DOCUMENTS_DIR=\"\$HOME/document\"\nXDG_DOWNLOAD_DIR=\"\$HOME/download\"\nXDG_MUSIC_DIR=\"\$HOME/audio\"\nXDG_PICTURES_DIR=\"\$HOME/photo\"\nXDG_VIDEOS_DIR=\"\$HOME/video\"' >> /home/neel/.config/user-dirs.dirs
 su - neel -c "mkdir -p ~/.local/share/gnupg"
 su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell; mv ~/.themes/Default-light/gnome-shell/gnome-shell.css ~/.local/share/themes/Custom/gnome-shell; rm -rf ~/.themes"
