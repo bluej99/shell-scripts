@@ -51,7 +51,7 @@ su - neel -c "mkdir -p ~/.local/share/gnupg"
 su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell; mv ~/.themes/Default-light/gnome-shell/gnome-shell.css ~/.local/share/themes/Custom/gnome-shell; rm -rf ~/.themes"
 su - neel -c "rm -rf ~/*"
 su - neel -c "printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tborder-radius: 12px;\n}' >> ~/.local/share/themes/Custom/gnome-shell/gnome-shell.css"
-su - neel -c "for f in avahi-discover bssh bvnc fish nm-connection-editor org.gnome.Devhelp org.gnome.Extensions org.gnome.Glade org.gnome.Sysprof3 qv4l2 qvidcap; do cp /usr/share/applications/\$f.desktop ~/.local/share/applications; done"
+su - neel -c "mkdir ~/.local/share/applications; for f in avahi-discover bssh bvnc fish nm-connection-editor org.gnome.Devhelp org.gnome.Extensions org.gnome.Glade org.gnome.Sysprof3 qv4l2 qvidcap; do cp /usr/share/applications/\$f.desktop ~/.local/share/applications; done"
 su - neel -c "for f in ~/.local/share/applications/*.desktop; do echo NoDisplay=true >> \$f; done"
 su - neel -c "sudo pacman -Rs $(pacman -Qdtq) --noconfirm"
 exit
