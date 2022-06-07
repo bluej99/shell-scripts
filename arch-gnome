@@ -39,14 +39,16 @@ su - neel -c "git clone https://aur.archlinux.org/gnome-console.git; cd gnome-co
 su - neel -c "git clone https://aur.archlinux.org/text-engine.git; cd text-engine; makepkg -si --noconfirm --asdeps"
 su - neel -c "git clone https://aur.archlinux.org/extension-manager.git; cd extension-manager; makepkg -si --noconfirm"
 su - neel -c "git clone https://aur.archlinux.org/clapper.git; cd clapper; makepkg -si --noconfirm"
+su - neel -c "git clone https://aur.archlinux.org/gnome-console.git; cd gnome-console; makepkg -si --noconfirm"
 su - neel -c "rm -rf ~/.*; rm -rf ~/*"
+su - neel -c "sudo pacman -S --noconfirm sassc; git clone https://gitlab.gnome.org/eeshugerman/gnome-shell-theme-default-light.git; cd gnome-shell-theme-default-light; make && make install; sudo pacman -Rcns sassc"
 su - neel -c "mkdir ~/{audio,document,download,photo,video}"
 su - neel -c "mkdir ~/.config"
 su - neel -c "touch ~/.config/user-dirs.dirs"
 printf 'XDG_DOCUMENTS_DIR=\"\$HOME/document\"\nXDG_DOWNLOAD_DIR=\"\$HOME/download\"\nXDG_MUSIC_DIR=\"\$HOME/audio\"\nXDG_PICTURES_HOME=\"\$HOME/photo\"\nXDG_VIDEOS_DIR=\"\$HOME/video\"' >> /home/neel/.config/user-dirs.dirs
 su - neel -c "mkdir -p ~/.local/share/gnupg"
-su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell"
-su - neel -c "printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tbackground: #303030;\n\tborder-radius: 12px;\n}' > ~/.local/share/themes/Custom/gnome-shell/gnome-shell.css"
+su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell; mv ~/.themes/Default-light/gnome-shell/gnome-shell.css ~/.local/share/themes/Custom/gnome-shell; rm -rf ~/.themes"
+su - neel -c "printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tbackground: #303030;\n\tborder-radius: 12px;\n}' >> ~/.local/share/themes/Custom/gnome-shell/gnome-shell.css"
 exit
 EOF
 chmod +x /mnt/root/part2.sh
