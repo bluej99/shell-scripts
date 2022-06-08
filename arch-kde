@@ -10,7 +10,6 @@ mount /dev/nvme0n1p1 /mnt/boot
 echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman -Sy && pacman -S archlinux-keyring
 pacstrap -i /mnt base base-devel bluedevil chromium dolphin fish git gwenview kate kdeplasma-addons konsole kwallet-pam libdbusmenu-glib libva-mesa-driver linux linux-firmware obs-studio okular pipewire-pulse plasma-desktop plasma-nm plasma-pa plasma-wayland-session plasma5-applets-window-buttons powerdevil power-profiles-daemon spectacle sddm sddm-kcm xdg-desktop-portal
-pacstrap -i /mnt kwallet-pam
 printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
 echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
 echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
@@ -34,10 +33,9 @@ printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loade
 printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
 su - neel -c "mkdir -p /home/neel/.local/share/plasma/plasmoids; git clone https://github.com/psifidotos/plasma-systray-latte-tweaks.git; cd plasma-systray-latte-tweaks; mv org.kde.plasma.* /home/neel/.local/share/plasma/plasmoids"
 su - neel -c "git clone https://aur.archlinux.org/paru-bin.git; cd paru-bin; makepkg -si --noconfirm"
-su - neel -c "paru -S zoom visual-studio-code-bin kwallet-secrets haruna plasma5-applets-betterinlineclock-git plasma5-applets-window-title --noconfirm"
+su - neel -c "paru -S kwallet-secrets"
+su - neel -c "paru -S zoom visual-studio-code-bin haruna plasma5-applets-betterinlineclock-git plasma5-applets-window-title sierrabreeze-kwin-decoration-git --noconfirm"
 su - neel -c "mkdir /home/neel/.local/share/{gnupg,vscode,zoom}"
-su - neel -c "touch /home/neel/.config/user-dirs.dirs"
-printf 'XDG_DESKTOP_DIR=\"\$HOME/desktop\"\nXDG_DOCUMENTS_DIR=\"\$HOME/document\"\nXDG_DOWNLOAD_DIR=\"\$HOME/download\"\nXDG_MUSIC_DIR=\"\$HOME/audio\"\nXDG_PICTURES_HOME=\"\$HOME/photo\"\nXDG_VIDEOS_DIR=\"\$HOME/video\"' >> /home/neel/.config/user-dirs.dirs
 exit
 EOF
 chmod +x /mnt/root/part2.sh
