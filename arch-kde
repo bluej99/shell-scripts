@@ -34,7 +34,6 @@ printf "title arch\nlinux /linux\ninitrd /initrd\noptions root=/dev/nvme0n1p3 re
 su - neel -c "mkdir -p /home/neel/.local/share/plasma/plasmoids; git clone https://github.com/psifidotos/plasma-systray-latte-tweaks.git; cd plasma-systray-latte-tweaks; mv org.kde.plasma.* /home/neel/.local/share/plasma/plasmoids"
 su - neel -c "git clone https://aur.archlinux.org/paru-bin.git; cd paru-bin; makepkg -si --noconfirm"
 su - neel -c "git clone https://aur.archlinux.org/kwallet-secrets.git; cd kwallet-secrets; makepkg -si --skippgpcheck"
-su - neel -c "paru -S kwallet-secrets"
 su - neel -c "paru -S zoom visual-studio-code-bin haruna plasma5-applets-betterinlineclock-git plasma5-applets-window-title sierrabreeze-kwin-decoration-git --noconfirm"
 su - neel -c "mkdir /home/neel/.local/share/{gnupg,vscode,zoom}"
 exit
