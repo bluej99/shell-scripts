@@ -9,7 +9,7 @@ mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
 echo 'Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman -Sy && pacman -S archlinux-keyring
-pacstrap -i /mnt base base-devel eog epiphany evince fish gdm git gnome-builder gnome-calculator gnome-control-center gnome-shell gst-plugin-pipewire gst-plugin-va gst-plugins-ugly libva-mesa-driver linux linux-firmware nautilus network-manager-applet pipewire-pulse power-profiles-daemon
+pacstrap -i /mnt linux linux-firmware base gdm gnome-shell gnome-terminal fish sudo
 printf "/dev/nvme0n1p1\t/boot\tvfat\tnoatime\t0\t2\n/dev/nvme0n1p2\tnone\tswap\tsw\t0\t0\n/dev/nvme0n1p3\t/\tf2fs\tnoatime\t0\t1" > /mnt/etc/fstab
 echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
 echo LANG=en_US.UTF-8 > /mnt/etc/locale.conf
@@ -25,35 +25,16 @@ locale-gen
 useradd -c "Neel Jepaliya" -m -G wheel -s /bin/bash neel
 passwd neel
 passwd
-systemctl enable gdm NetworkManager
+systemctl enable gdm
 bootctl install
-rm /boot/initramfs-linux-fallback.img
 printf "default arch.conf\ntimeout 4\neditor no\nconsole-mode max" > /boot/loader/loader.conf
 printf "title arch\nlinux /vmlinuz-linux\ninitrd /initramfs-linux.img\noptions root=/dev/nvme0n1p3 resume=/dev/nvme0n1p2 rw quiet" > /boot/loader/entries/arch.conf
-su - neel -c "git clone https://aur.archlinux.org/libpamac-aur.git; cd libpamac-aur; makepkg -si --noconfirm --asdeps"
-su - neel -c "git clone https://aur.archlinux.org/pamac-aur.git; cd pamac-aur; makepkg -si --noconfirm"
-su - neel -c "git clone https://aur.archlinux.org/adw-gtk3.git; cd adw-gtk3; makepkg -si --noconfirm"
-su - neel -c "git clone https://aur.archlinux.org/gnome-console.git; cd gnome-console; makepkg -si --noconfirm"
-su - neel -c "git clone https://aur.archlinux.org/text-engine.git; cd text-engine; makepkg -si --noconfirm --asdeps"
-su - neel -c "git clone https://aur.archlinux.org/extension-manager.git; cd extension-manager; makepkg -si --noconfirm"
-su - neel -c "git clone https://aur.archlinux.org/clapper.git; cd clapper; makepkg -si --noconfirm"
-su - neel -c "git clone https://aur.archlinux.org/gnome-text-editor.git; cd gnome-text-editor; makepkg -si --noconfirm"
-su - neel -c "rm -rf ~/.*; rm -rf ~/*"
-su - neel -c "sudo pacman -S --noconfirm sassc; git clone https://gitlab.gnome.org/eeshugerman/gnome-shell-theme-default-light.git; cd gnome-shell-theme-default-light; make && make install; sudo pacman -Rcns --noconfirm sassc"
-su - neel -c "mkdir ~/{audio,document,download,photo,video}"
-su - neel -c "mkdir ~/.config"
-su - neel -c "touch ~/.config/user-dirs.dirs"
-su - neel -c "mkdir ~/.config/git; touch ~/.config/git/config; git config --global user.name \"Neel Jepaliya\"; git config --global user.email \"n.jepaliya@gmail.com\""
-printf 'XDG_DOCUMENTS_DIR=\"\$HOME/document\"\nXDG_DOWNLOAD_DIR=\"\$HOME/download\"\nXDG_MUSIC_DIR=\"\$HOME/audio\"\nXDG_PICTURES_DIR=\"\$HOME/photo\"\nXDG_VIDEOS_DIR=\"\$HOME/video\"' >> /home/neel/.config/user-dirs.dirs
-su - neel -c "mkdir -p ~/.local/share/gnupg"
-su - neel -c "mkdir -p ~/.local/share/themes/Custom/gnome-shell; mv ~/.themes/Default-light/gnome-shell/gnome-shell.css ~/.local/share/themes/Custom/gnome-shell; rm -rf ~/.themes"
-su - neel -c "rm -rf ~/*"
-su - neel -c "printf '#panelBox {\n\tbackground: transparent;\n\tpadding-top: 6px;\n\tpadding-right: 6px;\n\tpadding-left: 6px;\n}\n#panel {\n\tborder-radius: 12px;\n}' >> ~/.local/share/themes/Custom/gnome-shell/gnome-shell.css"
-su - neel -c "sudo pacman -Rs $(pacman -Qdtq) --noconfirm"
 exit
 EOF
 chmod +x /mnt/root/part2.sh
 arch-chroot /mnt /root/part2.sh
+rm -rf /mnt/root/*
 rm -rf /mnt/root/.*
-rm -rf /mnt/root/part2.sh
+rm -rf /mnt/home/neel/*
+rm -rf /mnt/home/neel/.*
 umount -R /mnt
